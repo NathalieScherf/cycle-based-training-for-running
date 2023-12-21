@@ -19,7 +19,6 @@ const Tracker = () => {
   useEffect(() => {
     calculateWeeksDifference()
     setWeeksToRun(createArray(weeksDifference))
-
   }, [])
 
   // Example usage

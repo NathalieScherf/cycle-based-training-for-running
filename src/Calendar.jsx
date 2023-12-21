@@ -11,12 +11,10 @@ const MyCalendar = () => {
   const year = today.getFullYear();
 
   const [date, setDate] = useState(today);
-  const [monthNR, setMonthNR] = useState(today.getMonth())
-  const [monthName, setMonthName] = useState(monthNames[today.getMonth()])
-  const [nextMonth, setNextMonth  ] = useState(monthNames[today.getMonth()+1])
+  const [monthNR, setMonthNR] = useState(date.getMonth())
+  const [monthName, setMonthName] = useState(monthNames[date.getMonth()])
   const [firstDayOfMonth, setFirstDayOfMonth] = useState(0)
   const [lastDateOfMonth, setLastDateOfMonth] = useState(0)
-  const [daysInMonth] = useState(lastDateOfMonth)
 
 
   const getFirstDayOfMonth= (monthName, year) =>{
@@ -29,23 +27,33 @@ const MyCalendar = () => {
   };
 
 
+  // useEffect(() => {
+  //   getFirstDayOfMonth(monthName, year)
+  //   getLastDateOfMonth()
+  // }, [])
+
   useEffect(() => {
+    console.log('date changes', date);
     getFirstDayOfMonth(monthName, year)
     getLastDateOfMonth()
-  }, [])
+    setMonthNR(date.getMonth())
+    setMonthName(monthNames[date.getMonth()])
+  }, [date])
 
 
   const handleDateClick = (day) => {
     setDate(new Date(date.getFullYear(), date.getMonth(), day));
   };
 
-
-    const calendarDays = [];
-
+  const generateMonth = () => {
+    // Kanlender wirh nicht korrekt gerendert bei Monatswechsel
+    
+    let calendarDays = []
     // Add empty cells for the days before the 1st day of the month
     for (let i = 0; i < firstDayOfMonth; i++) {
       calendarDays.push(<div key={`empty-${i}`} className="empty-cell"></div>);
     }
+    
 
 
     // Add cells for each day in the month
@@ -61,43 +69,45 @@ const MyCalendar = () => {
       );
     }
     // Add empty cells for the days after the last day of the month
-    for (let x = 35; x > lastDateOfMonth ; x--) {
+    for (let x = 37; x > lastDateOfMonth ; x--) {
       calendarDays.push(<div key={`empty-${x}`} className="empty-cell">end</div>);
     }
-
+    return calendarDays
+  }
   const getMonthName = (monthNR) => {
     const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let name = ''
-    if (monthNR) {
-      name = month[monthNR];
-    } else {
-
-      const d = new Date();
-      name = month[d.getMonth()];
-    }
+    let name = month[monthNR];
     return name
   }
 
   const getPreviousMonth = (currentDate) => {
     const currentYear = currentDate.getFullYear();
     const currentMonth = currentDate.getMonth();
-    // Calculate the previous month
     const previousMonth = new Date(currentYear, currentMonth - 1, 1);
     console.log(previousMonth);
-    // setDisplayMonth(previousMonth)
+    setDate(previousMonth)
+  };
+
+
+  const getNextMonth = (currentDate) => {
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+    const nextMonth = new Date(currentYear, currentMonth + 1, 1);
+    console.log(nextMonth);
+    setDate(nextMonth)
   };
   return (
     <div>
       <h1>React Calendar Component</h1>
       <div className="calendar">
-        <div className='month'> <ArrowLeftSquare size={32} onClick={() => getPreviousMonth(date)} /><span> {getMonthName(monthNR)} </span> <ArrowRightSquare size={32} /> </div>
+        <div className='month'> <ArrowLeftSquare size={32} onClick={() => getPreviousMonth(date)} /><span> {getMonthName(monthNR)} </span> <ArrowRightSquare size={32} onClick={() => getNextMonth(date)} /> </div>
         <div className="days-of-week">
           {daysOfWeek.map((day, index) => (
             <div key={index}>{day}</div>
           ))}
         </div>
         <div className='calendar-days'>
-          {calendarDays}
+          {generateMonth()}
         </div>
       </div>
       <p>Selected date: {date.toDateString()}</p>
