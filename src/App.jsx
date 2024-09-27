@@ -1,6 +1,7 @@
 import './App.css'
-import Calendar from './Calendar'
 import Tracker from './Tracker'
+import PeriodTrackingCalendar from './PeriodTrackerCalendar'
+import Dashboard from './components/Dashboard'
 
 function App() {
 
@@ -8,8 +9,7 @@ function App() {
     
       <div className='App'>
         <img src="/running.jpeg" alt="running" style={{width: 100 }}/>
-        <Calendar />
-        <Tracker />
+        <Dashboard />
         </div>
     
   )
