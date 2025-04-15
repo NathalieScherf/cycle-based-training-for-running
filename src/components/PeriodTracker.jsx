@@ -1,11 +1,13 @@
 // src/components/PeriodTracker.js
 
 import { useState } from 'react';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 import usePeriodTracker from '../hooks/usePeriodTracker';
 
-const PeriodTracker = () => {
+const PeriodTracker = ({startDate, setStartDate}) => {
     const {
-        startDate,
         cycleLength,
         getCurrentCycleDay,
         daysUntilNextCycle,
@@ -26,7 +28,9 @@ const PeriodTracker = () => {
     return (
         <div className="tracker period-tracker">
             <h2>Period Tracker</h2>
-            <p><strong>Cycle Start Date:</strong> {new Date(startDate).toLocaleDateString()}</p>
+            <div><strong>Cycle Start Date:</strong> 
+            <DatePicker selected={startDate}  onSelect={(date) => setStartDate(date)} /></div>
+
             <p><strong>Cycle Length:</strong> {cycleLength} days</p>
             <p><strong>Current Cycle Day:</strong> {getCurrentCycleDay()}</p>
             <p><strong>Days Until Next Cycle:</strong> {daysUntilNextCycle()}</p>

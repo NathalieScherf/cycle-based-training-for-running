@@ -1,12 +1,23 @@
 // src/hooks/usePeriodTracker.js
 
 import { useState, useEffect } from 'react';
+import { FOL_PHASE, MENS_PHASE, OV_PHASE, SHIT_PHASE } from '../assets/phases';
 
+// Define the four phases with default durations (in days)
+const DEFAULT_PHASES = [
+    { name: MENS_PHASE, duration: 4 },
+    { name: FOL_PHASE, duration: 12 },
+    { name: OV_PHASE, duration: 6 },
+    { name: SHIT_PHASE, duration: 6 },
+];
+
+// Storage key for persisting data
 const PERIOD_TRACKER_KEY = 'periodTrackerData';
 
 const usePeriodTracker = (defaultCycleLength = 28) => {
     const [startDate, setStartDate] = useState(new Date());
     const [cycleLength, setCycleLength] = useState(defaultCycleLength);
+    const [phases, setPhases] = useState(DEFAULT_PHASES);
 
     // Load data from localStorage on mount
     useEffect(() => {
@@ -15,17 +26,27 @@ const usePeriodTracker = (defaultCycleLength = 28) => {
             const parsed = JSON.parse(storedData);
             setStartDate(new Date(parsed.startDate));
             setCycleLength(parsed.cycleLength);
+            setPhases(parsed.phases || DEFAULT_PHASES);
+        } else {
+            // Initialize with default phases and current date
+            const initialData = {
+                startDate: new Date().toISOString(),
+                cycleLength: defaultCycleLength,
+                phases: DEFAULT_PHASES,
+            };
+            localStorage.setItem(PERIOD_TRACKER_KEY, JSON.stringify(initialData));
         }
-    }, []);
+    }, [defaultCycleLength]);
 
-    // Save data to localStorage whenever startDate or cycleLength changes
+    // Save data to localStorage whenever relevant state changes
     useEffect(() => {
         const data = {
             startDate: startDate.toISOString(),
             cycleLength,
+            phases,
         };
         localStorage.setItem(PERIOD_TRACKER_KEY, JSON.stringify(data));
-    }, [startDate, cycleLength]);
+    }, [startDate, cycleLength, phases]);
 
     // Calculate the current cycle day
     const getCurrentCycleDay = () => {
@@ -46,20 +67,55 @@ const usePeriodTracker = (defaultCycleLength = 28) => {
         setStartDate(new Date());
     };
 
-    // Update cycle length
+    // Update cycle length and adjust phase durations proportionally
     const updateCycleLength = (newLength) => {
         if (newLength > 0) {
+            // Calculate the ratio of new cycle length to old cycle length
+            const ratio = newLength / cycleLength;
+            // Adjust each phase duration
+            const updatedPhases = phases.map(phase => ({
+                ...phase,
+                duration: Math.max(1, Math.round(phase.duration * ratio)), // Ensure at least 1 day
+            }));
             setCycleLength(newLength);
+            setPhases(updatedPhases);
         }
     };
 
+    // Determine the current phase based on the cycle day
+    const getCurrentPhase = () => {
+        const currentDay = getCurrentCycleDay();
+        let dayCounter = 0;
+        for (let phase of phases) {
+            dayCounter += phase.duration;
+            if (currentDay <= dayCounter) {
+                return phase.name;
+            }
+        }
+        return 'Unknown Phase'; // Fallback
+    };
+
+    // Get the phase for a specific cycle day
+    const getPhaseByDay = (day) => {
+        let dayCounter = 0;
+        for (let phase of phases) {
+            dayCounter += phase.duration;
+            if (day <= dayCounter) {
+                return phase.name;
+            }
+        }
+        return 'Unknown Phase'; // Fallback
+    };
     return {
-        startDate,
+      
         cycleLength,
+        phases,
         getCurrentCycleDay,
         daysUntilNextCycle,
         resetCycle,
         updateCycleLength,
+        getCurrentPhase,
+        getPhaseByDay,
     };
 };
 
