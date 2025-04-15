@@ -7,25 +7,27 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from 'react-modal'; // Import react-modal
 
 import usePeriodTracker from '../hooks/usePeriodTracker';
-import { FOL_PHASE, MENS_PHASE, OV_PHASE, SHIT_PHASE , getPhaseColor} from '../assets/phases';
+import { getPhaseColor } from '../assets/phases';
 
 Modal.setAppElement('#root'); // For accessibility
 
-const CalendarDisplay = ({ startDate }) => {
+const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
   const { cycleLength, getPhaseByDay } = usePeriodTracker();
 
   const [events, setEvents] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedEvents, setSelectedEvents] = useState([]);
+  // const [startDate, setStartDate] = useState(initialStartDate);
 
+  useEffect(() => {console.log(periodStartDate);
+  },[])
   useEffect(() => {
     const generatedEvents = [];
 
-    // Generate Period Cycle Events
-    const generatePeriodEvents = (cycleStart = startDate) => {
-      console.log(cycleStart)
-      for (let i = 0; i < cycleLength; i++) {
+    // Generate Period Cycle Events for 6 months
+    const generatePeriodEvents = (cycleStart) => {
+      for (let i = 0; i < 6 * cycleLength; i++) { // 6 months worth of days
         const eventDate = new Date(cycleStart);
         eventDate.setDate(cycleStart.getDate() + i);
         const dayInCycle = (i % cycleLength) + 1;
@@ -33,31 +35,17 @@ const CalendarDisplay = ({ startDate }) => {
         const color = getPhaseColor(phaseName); // Function to determine color based on phase
 
         generatedEvents.push({
-          title: phaseName,
+          title: `${phaseName} (${eventDate.toISOString().split('T')[0]})`,
           start: eventDate.toISOString().split('T')[0],
           color: color,
         });
       }
-    }
-    for (let i =0; i < 3; i++)
-    {
-      if (i ===1 ){
-        let next = startDate
-        let date = new Date(next.setDate(startDate.getDate() + 28));
-        // adds days, but also mutates the state defined in dashboard! HOW???
-        generatePeriodEvents(date)
-      } else if (i === 2) {
-        let next = startDate
+    };
 
-        let date = new Date(next.setDate(startDate.getDate() + 28));
-        generatePeriodEvents(date)
-      } else {
-    generatePeriodEvents(startDate)}
-  }
+    generatePeriodEvents(periodStartDate);
 
     setEvents(generatedEvents);
-  }, [startDate]);
-
+  }, [periodStartDate]);
 
   // Handle date clicks with modal
   const handleDateClick = (arg) => {
@@ -74,9 +62,25 @@ const CalendarDisplay = ({ startDate }) => {
     setSelectedEvents([]);
   };
 
+  const handleStartDateChange = (e) => {
+    const newStartDate = new Date(e.target.value);
+    setPeriodStartDate(newStartDate);
+    localStorage.setItem('PERIOD_TRACKER_KEY', JSON.stringify({
+      periodStartDate: newStartDate.toISOString(),
+      cycleLength,
+    }));
+  };
+
   return (
     <div className="calendar-display">
       <h2>Tracker Calendar</h2>
+      <label htmlFor="start-date">Set Starting Date: </label>
+      <input
+        type="date"
+        id="start-date"
+        value={periodStartDate.toISOString().split('T')[0]}
+        onChange={handleStartDateChange}
+      />
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

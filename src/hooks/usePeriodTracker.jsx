@@ -6,9 +6,9 @@ import { FOL_PHASE, MENS_PHASE, OV_PHASE, SHIT_PHASE } from '../assets/phases';
 // Define the four phases with default durations (in days)
 const DEFAULT_PHASES = [
     { name: MENS_PHASE, duration: 4 },
-    { name: FOL_PHASE, duration: 12 },
-    { name: OV_PHASE, duration: 6 },
-    { name: SHIT_PHASE, duration: 6 },
+    { name: FOL_PHASE, duration: 10 },
+    { name: OV_PHASE, duration: 9 },
+    { name: SHIT_PHASE, duration: 5 },
 ];
 
 // Storage key for persisting data
@@ -82,6 +82,11 @@ const usePeriodTracker = (defaultCycleLength = 28) => {
         }
     };
 
+    // Update start date
+    const updateStartDate = (newStartDate) => {
+        setStartDate(new Date(newStartDate));
+    };
+
     // Determine the current phase based on the cycle day
     const getCurrentPhase = () => {
         const currentDay = getCurrentCycleDay();
@@ -106,14 +111,15 @@ const usePeriodTracker = (defaultCycleLength = 28) => {
         }
         return 'Unknown Phase'; // Fallback
     };
+
     return {
-      
         cycleLength,
         phases,
         getCurrentCycleDay,
         daysUntilNextCycle,
         resetCycle,
         updateCycleLength,
+        updateStartDate,
         getCurrentPhase,
         getPhaseByDay,
     };
