@@ -19,3 +19,19 @@ export const getPhaseColor = (phaseName) => {
       return '#D3D3D3'; // Light gray for unknown phases
   }
 };
+
+
+export const getPhaseTraining = (phaseName) => {
+  switch (phaseName) {
+    case MENS_PHASE:
+      return 'light and coordination'; // Light pink
+    case FOL_PHASE:
+      return 'power and speed'; // Pale green
+    case OV_PHASE:
+      return 'ausdauer'; // Gold
+    case SHIT_PHASE:
+      return 'moderat ausdauer'; // Light blue
+    default:
+      return '#D3D3D3'; // Light gray for unknown phases
+  }
+};

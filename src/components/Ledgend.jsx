@@ -2,10 +2,10 @@
 
 const Legend = () => {
     const legends = [
-        { color: '#FFB6C1', label: 'Menstrual Phase' },
-        { color: '#98FB98', label: 'Follicular Phase' },
-        { color: '#FFD700', label: 'Ovulation Phase' },
-        { color: '#87CEFA', label: 'Shit Phase' },
+        { color: '#FFB6C1', label: 'Menstrual Phase', training: 'koordiation and light' },
+        { color: '#98FB98', label: 'Follicular Phase', training: 'speed and power' },
+        { color: '#FFD700', label: 'Ovulation Phase', training: 'ausdauer' },
+        { color: '#87CEFA', label: 'Shit Phase', training: 'moderat ausdauer ' },
         { color: '#D3D3D3', label: 'Unknown Phase' },
         { color: '#000', label: 'Monthly Event' }, // Same color as Luteal Phase for consistency
     ];
@@ -27,7 +27,7 @@ const Legend = () => {
                                 borderRadius: '3px',
                             }}
                         ></span>
-                        {item.label}
+                        {item.label},{item.training}
                     </li>
                 ))}
             </ul>

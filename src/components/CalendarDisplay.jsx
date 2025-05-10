@@ -7,7 +7,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import Modal from 'react-modal'; // Import react-modal
 
 import usePeriodTracker from '../hooks/usePeriodTracker';
-import { getPhaseColor } from '../assets/phases';
+import { getPhaseColor, getPhaseTraining } from '../assets/phases';
 
 Modal.setAppElement('#root'); // For accessibility
 
@@ -33,9 +33,10 @@ const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
         const dayInCycle = (i % cycleLength) + 1;
         const phaseName = getPhaseByDay(dayInCycle);
         const color = getPhaseColor(phaseName); // Function to determine color based on phase
-
+        const training = getPhaseTraining(phaseName)
         generatedEvents.push({
-          title: `${phaseName} (${eventDate.toISOString().split('T')[0]})`,
+          title: `${phaseName, training} `,
+          // (${eventDate.toISOString().split('T')[0]})
           start: eventDate.toISOString().split('T')[0],
           color: color,
         });

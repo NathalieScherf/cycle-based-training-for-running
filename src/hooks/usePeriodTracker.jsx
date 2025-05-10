@@ -6,7 +6,7 @@ import { FOL_PHASE, MENS_PHASE, OV_PHASE, SHIT_PHASE } from '../assets/phases';
 // Define the four phases with default durations (in days)
 const DEFAULT_PHASES = [
     { name: MENS_PHASE, duration: 4 },
-    { name: FOL_PHASE, duration: 10 },
+    { name: FOL_PHASE, duration: 9 },
     { name: OV_PHASE, duration: 9 },
     { name: SHIT_PHASE, duration: 5 },
 ];
@@ -14,7 +14,7 @@ const DEFAULT_PHASES = [
 // Storage key for persisting data
 const PERIOD_TRACKER_KEY = 'periodTrackerData';
 
-const usePeriodTracker = (defaultCycleLength = 28) => {
+const usePeriodTracker = (defaultCycleLength = 27) => {
     const [startDate, setStartDate] = useState(new Date());
     const [cycleLength, setCycleLength] = useState(defaultCycleLength);
     const [phases, setPhases] = useState(DEFAULT_PHASES);
