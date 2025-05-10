@@ -47,7 +47,7 @@ const CalendarDisplay = () => {
         const training = getPhaseTraining(phaseName);
 
         generatedEvents.push({
-          title: `${phaseName}, ${training}`,
+          title: training,
           start: eventDate.toISOString().split('T')[0],
           color: color,
         });
