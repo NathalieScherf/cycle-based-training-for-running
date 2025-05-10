@@ -6,22 +6,33 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import Modal from 'react-modal'; 
 
-import usePeriodTracker from '../hooks/usePeriodTracker';
+import usePeriodTracker, {PERIOD_TRACKER_KEY} from '../hooks/usePeriodTracker';
 import { getPhaseColor, getPhaseTraining } from '../assets/phases';
 
 Modal.setAppElement('#root'); 
 
-const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
+const CalendarDisplay = () => {
   const { cycleLength, getPhaseByDay } = usePeriodTracker();
+
+  const [periodStartDate, setPeriodStartDate] = useState(() => {
+    const storedData = localStorage.getItem(PERIOD_TRACKER_KEY);
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      if (parsedData.periodStartDate) {
+        return new Date(parsedData.periodStartDate);
+      }
+    }
+    return new Date(); // Default to current date if no data is found
+  });
 
   const [events, setEvents] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedEvents, setSelectedEvents] = useState([]);
-  // const [startDate, setStartDate] = useState(initialStartDate);
 
   useEffect(() => {console.log(periodStartDate);
   },[])
+
   useEffect(() => {
     const generatedEvents = [];
 
@@ -66,7 +77,7 @@ const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
   const handleStartDateChange = (e) => {
     const newStartDate = new Date(e.target.value);
     setPeriodStartDate(newStartDate);
-    localStorage.setItem('PERIOD_TRACKER_KEY', JSON.stringify({
+    localStorage.setItem(PERIOD_TRACKER_KEY, JSON.stringify({
       periodStartDate: newStartDate.toISOString(),
       cycleLength,
     }));

@@ -12,10 +12,10 @@ const DEFAULT_PHASES = [
 ];
 
 // Storage key for persisting data
-const PERIOD_TRACKER_KEY = 'periodTrackerData';
+export const PERIOD_TRACKER_KEY = 'periodTrackerData';
 
 const usePeriodTracker = (defaultCycleLength = 27) => {
-    const [startDate, setStartDate] = useState(new Date());
+    const [periodStartDate, setPeriodStartDate] = useState(new Date());
     const [cycleLength, setCycleLength] = useState(defaultCycleLength);
     const [phases, setPhases] = useState(DEFAULT_PHASES);
 
@@ -24,13 +24,13 @@ const usePeriodTracker = (defaultCycleLength = 27) => {
         const storedData = localStorage.getItem(PERIOD_TRACKER_KEY);
         if (storedData) {
             const parsed = JSON.parse(storedData);
-            setStartDate(new Date(parsed.startDate));
+            setPeriodStartDate(new Date(parsed.periodStartDate));
             setCycleLength(parsed.cycleLength);
             setPhases(parsed.phases || DEFAULT_PHASES);
         } else {
             // Initialize with default phases and current date
             const initialData = {
-                startDate: new Date().toISOString(),
+                periodStartDate: new Date().toISOString(),
                 cycleLength: defaultCycleLength,
                 phases: DEFAULT_PHASES,
             };
@@ -41,17 +41,17 @@ const usePeriodTracker = (defaultCycleLength = 27) => {
     // Save data to localStorage whenever relevant state changes
     useEffect(() => {
         const data = {
-            startDate: startDate.toISOString(),
+            periodStartDate: periodStartDate.toISOString(),
             cycleLength,
             phases,
         };
         localStorage.setItem(PERIOD_TRACKER_KEY, JSON.stringify(data));
-    }, [startDate, cycleLength, phases]);
+    }, [periodStartDate, cycleLength, phases]);
 
     // Calculate the current cycle day
     const getCurrentCycleDay = () => {
         const now = new Date();
-        const diffTime = now - new Date(startDate);
+        const diffTime = now - new Date(periodStartDate);
         const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         return (diffDays % cycleLength) + 1; // Day 1 to cycleLength
     };
@@ -64,7 +64,7 @@ const usePeriodTracker = (defaultCycleLength = 27) => {
 
     // Reset cycle to current date
     const resetCycle = () => {
-        setStartDate(new Date());
+        setPeriodStartDate(new Date());
     };
 
     // Update cycle length and adjust phase durations proportionally
@@ -84,7 +84,7 @@ const usePeriodTracker = (defaultCycleLength = 27) => {
 
     // Update start date
     const updateStartDate = (newStartDate) => {
-        setStartDate(new Date(newStartDate));
+        setPeriodStartDate(new Date(newStartDate));
     };
 
     // Determine the current phase based on the cycle day
