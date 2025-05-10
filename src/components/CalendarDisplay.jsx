@@ -4,12 +4,12 @@ import { useState, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import Modal from 'react-modal'; // Import react-modal
+import Modal from 'react-modal'; 
 
 import usePeriodTracker from '../hooks/usePeriodTracker';
 import { getPhaseColor, getPhaseTraining } from '../assets/phases';
 
-Modal.setAppElement('#root'); // For accessibility
+Modal.setAppElement('#root'); 
 
 const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
   const { cycleLength, getPhaseByDay } = usePeriodTracker();
@@ -33,10 +33,10 @@ const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
         const dayInCycle = (i % cycleLength) + 1;
         const phaseName = getPhaseByDay(dayInCycle);
         const color = getPhaseColor(phaseName); // Function to determine color based on phase
-        const training = getPhaseTraining(phaseName)
+        const training = getPhaseTraining(phaseName);
+
         generatedEvents.push({
-          title: `${phaseName, training} `,
-          // (${eventDate.toISOString().split('T')[0]})
+          title: `${phaseName}, ${training}`,
           start: eventDate.toISOString().split('T')[0],
           color: color,
         });
@@ -46,7 +46,7 @@ const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
     generatePeriodEvents(periodStartDate);
 
     setEvents(generatedEvents);
-  }, [periodStartDate]);
+  }, [periodStartDate, cycleLength]);
 
   // Handle date clicks with modal
   const handleDateClick = (arg) => {
@@ -79,7 +79,7 @@ const CalendarDisplay = ({ periodStartDate, setPeriodStartDate }) => {
       <input
         type="date"
         id="start-date"
-        value={periodStartDate.toISOString().split('T')[0]}
+        value={periodStartDate instanceof Date && !isNaN(periodStartDate) ? periodStartDate.toISOString().split('T')[0] : ''}
         onChange={handleStartDateChange}
       />
       <FullCalendar

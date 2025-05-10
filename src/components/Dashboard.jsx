@@ -1,16 +1,13 @@
-// src/components/Dashboard.js
-
 import PeriodTracker from './PeriodTracker';
 import MonthlyTracker from './MonthlyTracker';
 import CalendarDisplay from './CalendarDisplay';
 import Legend from './Ledgend';
-import WeeksUntil from './WeeksUntil';
 import { useState, useEffect } from 'react';
 
 
 const Dashboard = () => {
     const [periodStartDate, setPeriodStartDate] = useState(new Date());
-    const [startDateX, setStartDateX] = useState(new Date());
+
 
     useEffect(() => {
         const storedData = localStorage.getItem('PERIOD_TRACKER_KEY');
@@ -19,16 +16,13 @@ const Dashboard = () => {
             console.log(parsedData);
             
             setPeriodStartDate(new Date(parsedData.periodStartDate));
-            setStartDateX(new Date(parsedData.startDate));
         }
     }, []);
 
     const handleStartDateChange = (newStartDate) => {
         setPeriodStartDate(newStartDate);
-        setStartDateX(newStartDate);
         localStorage.setItem('PERIOD_TRACKER_KEY', JSON.stringify({
             periodStartDate: newStartDate.toISOString(),
-            startDate: newStartDate.toISOString(),
         }));
     };
 
@@ -40,7 +34,6 @@ const Dashboard = () => {
                 <MonthlyTracker />
             </div>
             <CalendarDisplay periodStartDate={periodStartDate} setPeriodStartDate={handleStartDateChange}/>
-            <WeeksUntil />
             <Legend />
 
         </div>

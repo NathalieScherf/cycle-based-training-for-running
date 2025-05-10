@@ -1,5 +1,3 @@
-// src/components/MonthlyTracker.js
-
 import React, { useState } from 'react';
 import useMonthlyTracker from '../hooks/useMonthlyTracker';
 
