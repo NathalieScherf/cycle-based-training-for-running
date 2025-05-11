@@ -4,6 +4,7 @@ import CalendarDisplay from './CalendarDisplay';
 import Legend from './Ledgend';
 import { useState, useEffect } from 'react';
 import { PERIOD_TRACKER_KEY } from '../hooks/usePeriodTracker';
+import WeeksUntil from './WeeksUntil';
 
 const Dashboard = () => {
     const [periodStartDate, setPeriodStartDate] = useState(new Date());
@@ -32,6 +33,7 @@ const Dashboard = () => {
             <div className="trackers">
                 {/* <PeriodTracker periodStartDate={periodStartDate} setPeriodStartDate={handleStartDateChange}/> */}
                 <MonthlyTracker />
+                <WeeksUntil />
             </div>
             <CalendarDisplay periodStartDate={periodStartDate} setPeriodStartDate={handleStartDateChange}/>
             <Legend />
