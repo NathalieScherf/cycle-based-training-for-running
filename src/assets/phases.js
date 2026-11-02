@@ -12,9 +12,9 @@ export const getPhaseColor = (phaseName) => {
     case FOL_PHASE:
       return '#98FB98'; // Pale green
     case OV_PHASE:
-      return '#FFD700'; // Gold
-    case SHIT_PHASE:
       return '#87CEFA'; // Light blue
+    case SHIT_PHASE:
+      return '#ffa600'; // Orange
     default:
       return '#D3D3D3'; // Light gray for unknown phases
   }

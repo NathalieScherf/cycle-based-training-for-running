@@ -1,4 +1,3 @@
-import PeriodTracker from './PeriodTracker';
 import MonthlyTracker from './MonthlyTracker';
 import CalendarDisplay from './CalendarDisplay';
 import Legend from './Ledgend';

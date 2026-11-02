@@ -1,8 +1,23 @@
 import { useState } from 'react';
 
 const WeeksUntil = () => {
-  const [selectedDate, setSelectedDate] = useState('');
-  const [weeksUntil, setWeeksUntil] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(() => {
+    const storedData = localStorage.getItem('WEEKS_UNTIL_DATA');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      return parsedData.selectedDate || '';
+    }
+    return '';
+  });
+
+  const [weeksUntil, setWeeksUntil] = useState(() => {
+    const storedData = localStorage.getItem('WEEKS_UNTIL_DATA');
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      return parsedData.weeksUntil || null;
+    }
+    return null;
+  });
 
   const handleDateChange = (e) => {
     const targetDate = new Date(e.target.value);
@@ -16,11 +31,17 @@ const WeeksUntil = () => {
 
     setSelectedDate(e.target.value);
     setWeeksUntil({ weeks, days });
+
+    // Save the selected date and weeksUntil data to local storage
+    localStorage.setItem('WEEKS_UNTIL_DATA', JSON.stringify({
+      selectedDate: e.target.value,
+      weeksUntil: { weeks, days },
+    }));
   };
 
   return (
     <div className="weeks-until">
-      <h3>Calculate Weeks Until a Date</h3>
+      <h3> Weeks Until the marathon</h3>
       <label htmlFor="target-date">Select a Date: </label>
       <input
         type="date"
