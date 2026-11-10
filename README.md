@@ -18,3 +18,5 @@ This is an app that allow the user to create training plans for running that are
 - [] Rules for save increas o ftraining load and recovery weeks need to be added
 
 - [] Rules on how to cync the training with the cycle will be created. 
+
+- [] Create a desktop version of the app for Mac and Windows.
