@@ -1,8 +1,20 @@
-# React + Vite
+# A cycle based training plan generator for running 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is an app that allow the user to create training plans for running that are cynced to the monthly female cycle. 
+## TODOS:
 
-Currently, two official plugins are available:
+- [] A user should be able to edit default cycle data 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [] A user should be able to edit data of the current cycle: lenght of menstrual phase and ovulation
+
+- [] A user should be able to edit the race goal distance (currently only marathon)
+
+- [] A user should be able to edit the start date of the plan
+
+- [] A user should be able to mark a plan as done and generate a new one
+
+- [] A change to any of the values should lead to a recalculation of the training plan. 
+
+- [] Rules for save increas o ftraining load and recovery weeks need to be added
+
+- [] Rules on how to cync the training with the cycle will be created. 
