@@ -1,6 +1,4 @@
 import './App.css'
-import Tracker from './Tracker'
-import PeriodTrackingCalendar from './PeriodTrackerCalendar'
 import Dashboard from './components/Dashboard'
 
 function App() {

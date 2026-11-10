@@ -11,6 +11,10 @@ This is an app that allow the user to create training plans for running that are
 
 - [] A user should be able to edit the start date of the plan
 
+- [] Create an onboarding flow for new users to enter all the data above
+
+- [] The generated training plan should be displayed on the dashboard
+
 - [] A user should be able to mark a plan as done and generate a new one
 
 - [] A change to any of the values should lead to a recalculation of the training plan. 
