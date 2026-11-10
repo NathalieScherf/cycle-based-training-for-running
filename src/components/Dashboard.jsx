@@ -30,7 +30,6 @@ const Dashboard = () => {
         <div className="dashboard">
             <h1>Tracker Dashboard</h1>
             <div className="trackers">
-                {/* <PeriodTracker periodStartDate={periodStartDate} setPeriodStartDate={handleStartDateChange}/> */}
                 <MonthlyTracker />
                 <WeeksUntil />
             </div>

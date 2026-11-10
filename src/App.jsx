@@ -6,7 +6,6 @@ function App() {
   return (
     
       <div className='App'>
-        <img src="/running.jpeg" alt="running" style={{width: 100 }}/>
         <Dashboard />
         </div>
     
