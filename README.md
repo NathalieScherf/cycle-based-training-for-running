@@ -2,6 +2,9 @@
 
 This is an app that allow the user to create training plans for running that are cynced to the monthly female cycle. 
 ## TODOS:
+- [] Clean up the exisitng component structure
+
+- [] Imporve data handling
 
 - [] A user should be able to edit default cycle data 
 
