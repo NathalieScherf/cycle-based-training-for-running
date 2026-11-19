@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useMonthlyTracker from '../hooks/useMonthlyTracker';
 
 const MonthlyTracker = () => {
@@ -7,18 +7,8 @@ const MonthlyTracker = () => {
         eventName,
         shouldRun,
         runTask,
-        updateEventName,
-    } = useMonthlyTracker('Billing Cycle');
-
-    const [newEventName, setNewEventName] = useState(eventName);
-
-    const handleEventNameChange = (e) => {
-        setNewEventName(e.target.value);
-    };
-
-    const handleUpdateEventName = () => {
-        updateEventName(newEventName);
-    };
+    } = useMonthlyTracker('Period');
+  
 
     // Automatically run the task if needed
     React.useEffect(() => {
@@ -40,18 +30,8 @@ const MonthlyTracker = () => {
         <div className="tracker monthly-tracker">
             <h2>Monthly Tracker</h2>
             <p><strong>Event Name:</strong> {eventName}</p>
-            <p><strong>Last Run:</strong> {lastRun ? new Date(lastRun).toLocaleDateString() : 'Never'}</p>
-            <p><strong>Next Run:</strong> {getNextRunDate()}</p>
-            <div className="event-name-update">
-                <label htmlFor="eventName">Update Event Name:</label>
-                <input
-                    type="text"
-                    id="eventName"
-                    value={newEventName}
-                    onChange={handleEventNameChange}
-                />
-                <button onClick={handleUpdateEventName}>Update</button>
-            </div>
+            <p><strong>Last Start:</strong> {lastRun ? new Date(lastRun).toLocaleDateString() : 'Never'}</p>
+            <p><strong>Next Start:</strong> {getNextRunDate()}</p>
         </div>
     );
 };
