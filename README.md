@@ -1,14 +1,16 @@
 # A cycle based training plan generator for running 
 
-This is an app that allows female runners to create a training plan for a sepcific goal (between a 5k run and a 160k ultra), based on their current running habits. 
-The training is calculates using standard values for training progression (e.g. 3 weeks increades load, 1 recovery week), but it can be individualised. 
 
-The suggested training also syncs with the female cycle, in order to allow the runners to adjust the training load to match recomendations for the different menstrual phases. 
+This is an app that allows female runners to create a training plan for a specific race goal (between a 5k run and a 160k ultra), based on their current running habits. The training is calculates using standard values for training progression (e.g. 3 weeks increased load, 1 recovery week), but it can be individualized to other intervals.
 
-### Why: 
+The  special thing about this app is that the suggested training also syncs with the female cycle (individual inputs from each user), in order to allow the runners to adjust the training load to match recommendations for the different menstrual phases.
 
-Generating training plans that sync with your cycle is not a feature in any of the existing sports apps that I know ot. The individual variation in the cycle is large and it does not map to the standard training plans by default. 
-But I want women to be able to benefit from this cycle bases approach to training, by creating highly adjustable training plans.  
+## Why:
+Generating training plans that sync with your cycle is not a feature in any of the existing sports apps that I know of. 
+The individual variation in the cycle is large and it does not map to the standard training plans by default. But I want women to be able to benefit from this cycle bases approach to training, by creating highly adjustable training plans.
+Syncing the training plan  with the period data is not trivial, as safe training increase follows one set of rules, and  training with the cycle to have the most physiological benefit of each phase, follows an other set of rules. Adding to this: The cycle is dynamic and might change each month for each individual. 
+The training plan needs to be adapted to all possible changes, while still maintaining a load that makes reaching the goal possible.
+It is a challenge to connect all the moving parts, taking the wide range of variation in both cycle data and possible training goals into consideration. 
 
 ## Current state: 
 
@@ -46,15 +48,6 @@ But I want women to be able to benefit from this cycle bases approach to trainin
     - mark a run as done
     - postpone an upcomming run (which triggers a recalculation of the training plan)
 
-## The interesting part: 
-
-The calculation of the training plan needs to be synced with the period data. This is not trivial, as safe training increas follows one set of rules, and how to sync the training with the cycle to have the most physiologigac benefit of each phase, follows an other set of rules. 
-The cycle is dynamic and might change each month. The training plan needs to be adapted to this, while still maintaining a load that makes reaching the goal possible. 
-
-The training plan also needs to be able to handle deviations from the plan, e.g. missing training because of travell or illnes. 
-
-A change in any of the data (cycle, training, or goal) should lead to adjustments in the current plan.  
-
   
 
 
@@ -67,4 +60,14 @@ A change in any of the data (cycle, training, or goal) should lead to adjustment
 - unit and e2e testing, 100% coverage
 - Data storage locally in the local storage of the browser - no personal data leak. 
 
-- Possibly also a desktop app. 
+
+
+## Success for this app look like this: 
+A user can edit all their data about their training goal (distance and date), as well as their cycle information and get a training plan that  syncs their training with the cycle. 
+A user can also edit any of the data points (training goal or cycle) and the plan updates accordingly. (The underlying data updates, that feeds the calendar view as well as the training plan view)
+
+==> Create e2e tests for this!
+
+# Set up
+
+JavaScript, node, React (set up with vite), testing with vitest, react testing library and playwright. Data is stored in local storage of the browser (no need to store between sessions) and all the packages are installable from npm. 
